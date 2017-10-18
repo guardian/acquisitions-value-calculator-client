@@ -20,6 +20,12 @@ resolvers += Resolver.bintrayRepo("guardian", "ophan")
 
 val circeVersion = "0.7.0"
 
+scmInfo := Some(ScmInfo(
+  url("https://github.com/guardian/acquisitions-value-calculator-client"),
+  "scm:git:git@github.com:guardian/acquisitions-value-calculator-client.git"
+))
+
+
 publishTo :=
   Some(if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)
 
