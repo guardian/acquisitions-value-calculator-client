@@ -1,3 +1,5 @@
+import ReleaseTransformations._
+
 name := "acquisitions-value-calculator-service"
 organization := "com.gu"
 
@@ -32,3 +34,18 @@ libraryDependencies ++= Seq(
     exclude("com.chuusai", "shapeless_sjs0.6_2.11")
 )
 
+releaseCrossBuild := true // true if you cross-build the project for multiple Scala versions
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  releaseStepCommand("publishSigned"),
+  setNextVersion,
+  commitNextVersion,
+  releaseStepCommand("sonatypeReleaseAll"),
+  pushChanges
+)
