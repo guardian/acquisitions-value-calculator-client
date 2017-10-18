@@ -1,11 +1,9 @@
 import ReleaseTransformations._
 
-name := "acquisitions-value-calculator-service"
+name := "acquisitions-value-calculator-client"
 organization := "com.gu"
 
 description:= "A Client/Service for the acquisitions value calculator"
-
-version := "1.0"
 
 scalaVersion := "2.11.11"
 
