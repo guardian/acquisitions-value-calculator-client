@@ -1,7 +1,7 @@
 package com.gu.acquisitionsValueCalculatorClient.model
 
 import com.gu.fezziwig.CirceScroogeMacros._
-import io.circe.Encoder
+import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 import ophan.thrift.event._
 
@@ -14,4 +14,12 @@ object AcquisitionModel {
     implicit val productEncoder: Encoder[Product] = encodeThriftEnum
     deriveEncoder
   }
+
+  implicit val acquisitionDecode: Decoder[AcquisitionModel] = {
+    implicit val paymentFrequencyDecoder: Decoder[PaymentFrequency] = decodeThriftEnum
+    implicit val paymentProviderDecoder: Decoder[PaymentProvider] = decodeThriftEnum
+    implicit val productDecoder: Decoder[Product] = decodeThriftEnum
+    deriveDecoder
+  }
+
 }
