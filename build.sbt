@@ -1,5 +1,3 @@
-
-
 name := "acquisitions-value-calculator-service"
 organization := "com.gu"
 

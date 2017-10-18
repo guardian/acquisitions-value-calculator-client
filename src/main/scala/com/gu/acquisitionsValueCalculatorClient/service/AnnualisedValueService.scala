@@ -17,10 +17,10 @@ object AnnualisedValueService {
     decode[AnnualisedValueResult](json).leftMap(e => "Error: Unable to parse ( " + json + "). " + e.getMessage)
   }
 
-  def getAV(acquisitionModel: AcquisitionModel): Either[String, AnnualisedValueResult] = {
+  def getAV(acquisitionModel: AcquisitionModel, accountName: String): Either[String, AnnualisedValueResult] = {
 
     implicit val region: Regions = AnnualisedValueClient.getRegion
-    implicit val lambda = AnnualisedValueClient.createLambdaClient(region, new ProfileCredentialsProvider("ophan"))
+    implicit val lambda = AnnualisedValueClient.createLambdaClient(region, new ProfileCredentialsProvider(accountName))
 
     val invokeRequest = new InvokeRequest
     invokeRequest.setFunctionName("acquisitions-value-calculator-PROD")
