@@ -1,6 +1,6 @@
 import ReleaseTransformations._
 
-name := "acquisitions-value-calculator-client"
+name := "acquisitions-value-calculator-service"
 organization := "com.gu"
 
 description:= "A Client/Service for the acquisitions value calculator"
