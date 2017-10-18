@@ -12,6 +12,6 @@ class AnnualisedValueTest extends FlatSpec with Matchers with OptionValues with 
 
   it should "cached today's currency rates after one iteration has been run" in {
     val acquisition = AcquisitionModel(50, Product(1), "GBP", PaymentFrequency(1), Some(PaymentProvider(1)))
-    AnnualisedValueService.getAV(acquisition) shouldBe Right(AnnualisedValueTwo(49.5))
+    AnnualisedValueService.getAV(acquisition, "ophan") shouldBe Right(AnnualisedValueTwo(49.5))
   }
 }
