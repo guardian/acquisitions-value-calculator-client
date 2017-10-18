@@ -20,6 +20,8 @@ resolvers += Resolver.bintrayRepo("guardian", "ophan")
 
 val circeVersion = "0.7.0"
 
+publishTo :=
+  Some(if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
