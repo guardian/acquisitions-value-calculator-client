@@ -25,6 +25,18 @@ scmInfo := Some(ScmInfo(
   "scm:git:git@github.com:guardian/acquisitions-value-calculator-client.git"
 ))
 
+licenses := Seq("Apache V2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
+
+pomExtra := (
+  <url>https://github.com/guardian/acquisitions-value-calculator-client</url>
+    <developers>
+      <developer>
+        <id>jranks123</id>
+        <name>Jonathan Rankin</name>
+        <url>https://github.com/guardian</url>
+      </developer>
+    </developers>
+  )
 
 publishTo :=
   Some(if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)
