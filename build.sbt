@@ -1,3 +1,5 @@
+import ReleaseTransformations._
+
 name := "acquisitions-value-calculator-service"
 organization := "com.gu"
 
@@ -18,6 +20,7 @@ resolvers += Resolver.bintrayRepo("guardian", "ophan")
 
 val circeVersion = "0.7.0"
 
+
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
   "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
@@ -32,3 +35,18 @@ libraryDependencies ++= Seq(
     exclude("com.chuusai", "shapeless_sjs0.6_2.11")
 )
 
+releaseCrossBuild := true // true if you cross-build the project for multiple Scala versions
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  releaseStepCommand("publishSigned"),
+  setNextVersion,
+  commitNextVersion,
+  releaseStepCommand("sonatypeReleaseAll"),
+  pushChanges
+)
