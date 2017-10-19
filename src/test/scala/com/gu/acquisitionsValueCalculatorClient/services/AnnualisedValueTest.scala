@@ -1,8 +1,6 @@
 package com.gu.acquisitionsValueCalculatorClient.services
 
 import com.gu.acquisitionsValueCalculatorClient.model.{AcquisitionModel}
-import com.gu.acquisitionsValueCalculatorClient.service.AnnualisedValueService
-import ophan.thrift.event.{PaymentFrequency, PaymentProvider, Product}
 import org.scalatest._
 import org.scalatest.concurrent.Eventually
 
