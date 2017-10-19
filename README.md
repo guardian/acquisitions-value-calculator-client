@@ -7,8 +7,7 @@ Add a resolver to the Sonatype Maven repo:
 ```resolvers += Resolver.sonatypeRepo("releases")```
 
 and add a dependency:
-```
-    "com.gu" %% "acquisitions-value-calculator-client" % "<version>",
+```"com.gu" %% "acquisitions-value-calculator-client" % "<version>"```
 
 For latest version, see the releases https://github.com/guardian/acquisitions-value-calculator-client/releases
 
