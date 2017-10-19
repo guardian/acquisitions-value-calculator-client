@@ -4,6 +4,7 @@ import com.gu.fezziwig.CirceScroogeMacros._
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 import ophan.thrift.event._
+import scala.reflect.ClassTag
 
 case class AcquisitionModel(amount: Double, product: Product, currency: String, paymentFrequency: PaymentFrequency, paymentProvider: Option[PaymentProvider])
 
@@ -26,16 +27,26 @@ object AcquisitionModel {
     import cats.syntax.either._
     type R[A] = Either[String, Option[A]]
 
-    def parseOptionalEnum [A] (value: Option[String], valueOf: String => Option[A]) : R[A] = {
-      value.map(v => valueOf(v)).fold[R[A]](Right(None)) {
-        case None => Left("")
+    def error[A: ClassTag](value: String, classTag: ClassTag[A]): String = {
+      s"Error: $value is not a valid $classTag"
+    }
+
+    def toCamel(value: String): String = value.replaceAll("_", "")
+
+    def parseOptionalEnum [A: ClassTag](value: Option[String], valueOf: String => Option[A]) : R[A] = {
+      value.map(v => valueOf(toCamel(v))).fold[R[A]](Right(None)) {
+        case None => Left(error(value.getOrElse(""), reflect.classTag[A]))
         case a => Right(a)
       }
     }
 
+    def parseEnum[A: ClassTag](value: String, valueOf: String => Option[A]): Either[String, A] = {
+      Either.fromOption(valueOf(toCamel(value)), error(value, reflect.classTag[A]))
+    }
+
     for {
-      product <- Either.fromOption(Product.valueOf(product), s"Error: $product is not a valid product")
-      paymentFrequency <- Either.fromOption(PaymentFrequency.valueOf(paymentFrequency), "Error: could not parse product")
+      product <- parseEnum(product, Product.valueOf)
+      paymentFrequency <- parseEnum(paymentFrequency, PaymentFrequency.valueOf)
       paymentProvider <- parseOptionalEnum(paymentProvider, PaymentProvider.valueOf)
     } yield {
       AcquisitionModel(amount, product, currency, paymentFrequency, paymentProvider)
