@@ -4,17 +4,8 @@ import com.gu.fezziwig.CirceScroogeMacros._
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 import ophan.thrift.event._
-import io.circe.syntax._
-import io.circe.parser._
-import io.circe.Error
-
 
 case class AcquisitionModel(amount: Double, product: Product, currency: String, paymentFrequency: PaymentFrequency, paymentProvider: Option[PaymentProvider])
-case class AcquisitionModelFromPrimitives(amount: Double, product: String, currency: String, paymentFrequency: String, paymentProvider: Option[String])
-object AcquisitionModelFromPrimitives {
-  implicit val acquisitionModelFromPrimitivesDecoder: Encoder[AcquisitionModelFromPrimitives] = deriveEncoder
-}
-
 
 object AcquisitionModel {
   implicit val acquisitionEncode: Encoder[AcquisitionModel] = {
@@ -31,9 +22,24 @@ object AcquisitionModel {
     deriveDecoder
   }
 
-  def fromPrimitives(amount: Double, product: String, currency: String, paymentFrequency: String, paymentProvider: Option[String]): Either[Error, AcquisitionModel] = {
-    val acquistionFromPrimitives  = AcquisitionModelFromPrimitives(amount, product, currency, paymentFrequency, paymentProvider).asJson.noSpaces
-    decode[AcquisitionModel](acquistionFromPrimitives)
+  def fromPrimitives(amount: Double, product: String, currency: String, paymentFrequency: String, paymentProvider: Option[String]): Either[String, AcquisitionModel] = {
+    import cats.syntax.either._
+    type R[A] = Either[String, Option[A]]
+
+    def parseOptionalEnum [A] (value: Option[String], valueOf: String => Option[A]) : R[A] = {
+      value.map(v => valueOf(v)).fold[R[A]](Right(None)) {
+        case None => Left("")
+        case a => Right(a)
+      }
+    }
+
+    for {
+      product <- Either.fromOption(Product.valueOf(product), s"Error: $product is not a valid product")
+      paymentFrequency <- Either.fromOption(PaymentFrequency.valueOf(paymentFrequency), "Error: could not parse product")
+      paymentProvider <- parseOptionalEnum(paymentProvider, PaymentProvider.valueOf)
+    } yield {
+      AcquisitionModel(amount, product, currency, paymentFrequency, paymentProvider)
+    }
   }
 
 }
