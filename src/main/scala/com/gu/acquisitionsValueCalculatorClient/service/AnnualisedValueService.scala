@@ -30,6 +30,5 @@ object AnnualisedValueService {
       case AVError(e) => Left(e)
       case AnnualisedValueTwo(amount) => Right(amount)
     }
-
   }
 }
