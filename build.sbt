@@ -52,12 +52,10 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-java-sdk" % "1.11.77",
   "org.typelevel" %% "cats-core" % "1.0.0-MF",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
-  "com.gu" %% "ophan-event-model" % "0.0.1",
+  "com.gu" %% "ophan-event-model" % "0.0.1" % "provided",
   "com.gu" %% "fezziwig" % "0.6",
   "io.circe" %% "circe-parser" % circeVersion,
-  "io.circe" %% "circe-generic-extras_sjs0.6" % circeVersion
-    exclude("org.typelevel", "cats-core_sjs0.6_2.11" )
-    exclude("com.chuusai", "shapeless_sjs0.6_2.11")
+  "io.circe" %% "circe-generic" % circeVersion
 )
 
 releaseCrossBuild := true // true if you cross-build the project for multiple Scala versions
