@@ -35,12 +35,6 @@ pomExtra := (
         <url>https://github.com/guardian</url>
       </developer>
     </developers>
-    <exclusions>
-      <exclusion>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-      </exclusion>
-    </exclusions>
   )
 
 publishTo :=
