@@ -47,7 +47,7 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-java-sdk-lambda" % "1.11.218",
   "org.typelevel" %% "cats-core" % "1.0.0-MF",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
-  "com.gu" %% "ophan-event-model" % "0.0.1" % "provided",
+  "com.gu" %% "ophan-event-model" % "0.0.1",
   "com.gu" %% "fezziwig" % "0.6",
   "io.circe" %% "circe-parser" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion
