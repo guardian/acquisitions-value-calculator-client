@@ -7,6 +7,7 @@ import com.gu.acquisitionsValueCalculatorClient.model.{AVError, AcquisitionModel
 import io.circe.syntax._
 import io.circe.parser._
 import cats.syntax.either._
+import etl.utils.ProfileAwareCredentialsProviderChain
 
 
 
@@ -19,8 +20,9 @@ object AnnualisedValueService {
 
   def getAV(acquisitionModel: AcquisitionModel, accountName: String): Either[String, Double] = {
 
-    implicit val region: Regions = AnnualisedValueClient.getRegion
-    implicit val lambda = AnnualisedValueClient.createLambdaClient(region, new ProfileCredentialsProvider(accountName))
+    //implicit val region: Regions = AnnualisedValueClient.getRegion
+
+    implicit val lambda = AnnualisedValueClient.createLambdaClient(new ProfileAwareCredentialsProviderChain(accountName))
 
     val invokeRequest = new InvokeRequest
     invokeRequest.setFunctionName("acquisitions-value-calculator-PROD")

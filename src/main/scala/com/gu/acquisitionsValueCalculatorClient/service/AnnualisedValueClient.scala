@@ -2,13 +2,13 @@ package com.gu.acquisitionsValueCalculatorClient.service
 
 import com.amazonaws.ClientConfiguration
 import com.amazonaws.auth.AWSCredentialsProvider
-import com.amazonaws.regions.Regions
+import com.amazonaws.regions.{Region, Regions}
 import com.amazonaws.retry.{PredefinedRetryPolicies, RetryPolicy}
-import com.amazonaws.services.lambda.{AWSLambda, AWSLambdaClientBuilder}
+import com.amazonaws.services.lambda.{AWSLambda, AWSLambdaClient, AWSLambdaClientBuilder}
 
 object AnnualisedValueClient {
 
-  def getRegion = Option(System.getenv("AWS_DEFAULT_REGION")).map(Regions.fromName).getOrElse(Regions.EU_WEST_1)
+  val getRegion =  Region getRegion Regions.EU_WEST_1
 
   val clientConfig = new ClientConfiguration().withRetryPolicy(
     new RetryPolicy(
@@ -18,6 +18,8 @@ object AnnualisedValueClient {
       false
     )
   )
-  def createLambdaClient(implicit region:Regions, creds: AWSCredentialsProvider): AWSLambda =
-    AWSLambdaClientBuilder.standard().withRegion(region).withCredentials(creds).withClientConfiguration(clientConfig).build()
+  def createLambdaClient(creds: AWSCredentialsProvider): AWSLambda = {
+    getRegion.createClient(classOf[AWSLambdaClient], creds, null)
+   //AWSLambdaClientBuilder.standard().withRegion(region).withCredentials(creds).withClientConfiguration(clientConfig).build()
+  }
 }
