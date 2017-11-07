@@ -1,7 +1,5 @@
 package com.gu.acquisitionsValueCalculatorClient.service
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.regions.Regions
 import com.amazonaws.services.lambda.model.InvokeRequest
 import com.gu.acquisitionsValueCalculatorClient.model.{AVError, AcquisitionModel, AnnualisedValueResult, AnnualisedValueTwo}
 import io.circe.syntax._
@@ -19,8 +17,6 @@ object AnnualisedValueService {
   }
 
   def getAV(acquisitionModel: AcquisitionModel, accountName: String): Either[String, Double] = {
-
-    //implicit val region: Regions = AnnualisedValueClient.getRegion
 
     implicit val lambda = AnnualisedValueClient.createLambdaClient(new ProfileAwareCredentialsProviderChain(accountName))
 
