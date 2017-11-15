@@ -4,6 +4,12 @@ import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 
 case class PrintOptionsModel(PrintProduct: String, deliveryCountryCode: String)
+object PrintOptionsModel {
+  implicit val printOptionsModelEncode: Encoder[PrintOptionsModel] = deriveEncoder
+  implicit val printOptionsModelDncode: Decoder[PrintOptionsModel] = deriveDecoder
+}
+
+
 
 case class AcquisitionModel(
   amount: Double,
