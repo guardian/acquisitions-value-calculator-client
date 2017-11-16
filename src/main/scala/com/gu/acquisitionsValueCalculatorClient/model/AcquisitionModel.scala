@@ -3,7 +3,7 @@ package com.gu.acquisitionsValueCalculatorClient.model
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 
-case class PrintOptionsModel(PrintProduct: String, deliveryCountryCode: String)
+case class PrintOptionsModel(product: String, deliveryCountryCode: String)
 object PrintOptionsModel {
   implicit val printOptionsModelEncode: Encoder[PrintOptionsModel] = deriveEncoder
   implicit val printOptionsModelDncode: Decoder[PrintOptionsModel] = deriveDecoder
@@ -17,7 +17,7 @@ case class AcquisitionModel(
   currency: String,
   paymentFrequency: String,
   paymentProvider: Option[String],
-  printOptionsModel: Option[PrintOptionsModel])
+  printOptions: Option[PrintOptionsModel])
 
 object AcquisitionModel {
   implicit val acquisitionEncode: Encoder[AcquisitionModel] = deriveEncoder
