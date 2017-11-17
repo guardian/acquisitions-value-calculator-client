@@ -7,9 +7,9 @@ import io.circe.parser._
 import cats.syntax.either._
 import com.gu.acquisitionsValueCalculatorClient.utils.ProfileAwareCredentialsProviderChain
 
-class AnnualisedValueService
+object AnnualisedValueService extends AnnualisedValueService
 
-object AnnualisedValueService extends AnnualisedValueService {
+class AnnualisedValueService {
 
   def annualisedValueResultFromJson(json: String): Either[String, AnnualisedValueResult] = {
     decode[AnnualisedValueResult](json).leftMap(e => "Error: Unable to parse ( " + json + "). " + e.getMessage)
