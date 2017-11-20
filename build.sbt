@@ -45,7 +45,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
   "com.amazonaws" % "aws-java-sdk-core" % "1.11.77",
   "com.amazonaws" % "aws-java-sdk-lambda" % "1.11.77",
-  "org.typelevel" %% "cats-core" % "1.0.0-MF",
+  "org.typelevel" %% "cats-core" % "0.9.0",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
   "com.gu" %% "fezziwig" % "0.6",
   "io.circe" %% "circe-parser" % circeVersion,
