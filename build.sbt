@@ -17,7 +17,7 @@ scalacOptions ++= Seq(
 resolvers += Resolver.bintrayRepo("guardian", "ophan")
 resolvers += Resolver.sonatypeRepo("releases")
 
-val circeVersion = "0.7.0"
+val circeVersion = "0.8.0"
 
 scmInfo := Some(ScmInfo(
   url("https://github.com/guardian/acquisitions-value-calculator-client"),
