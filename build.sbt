@@ -34,8 +34,12 @@ pomExtra := (
         <name>Jonathan Rankin</name>
         <url>https://github.com/guardian</url>
       </developer>
+      <developer>
+        <id>desbo</id>
+        <name>Sam Desborough</name>
+        <url>https://github.com/desbo</url>
+      </developer>
     </developers>
-
   )
 
 publishTo :=
