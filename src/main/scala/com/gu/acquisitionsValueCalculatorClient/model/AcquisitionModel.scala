@@ -1,15 +1,31 @@
 package com.gu.acquisitionsValueCalculatorClient.model
 
-import io.circe.{Decoder, Encoder}
-import io.circe.generic.semiauto._
+import cats.syntax.either._
+import io.circe.Decoder.Result
+import io.circe._
+import io.circe.syntax._
 
 case class PrintOptionsModel(product: String, deliveryCountryCode: String)
+
 object PrintOptionsModel {
-  implicit val printOptionsModelEncode: Encoder[PrintOptionsModel] = deriveEncoder
-  implicit val printOptionsModelDncode: Decoder[PrintOptionsModel] = deriveDecoder
+
+  implicit val printOptionsModelDecoder: Decoder[PrintOptionsModel] = new Decoder[PrintOptionsModel] {
+    override def apply(c: HCursor): Result[PrintOptionsModel] =
+      for {
+        product <- c.downField("product").as[String]
+        deliveryCountryCode <- c.downField("deliveryCountryCode").as[String]
+      } yield {
+        PrintOptionsModel(product, deliveryCountryCode)
+      }
+  }
+
+  implicit val printOptionsModelEncoder: Encoder[PrintOptionsModel] = new Encoder[PrintOptionsModel] {
+    override def apply(a: PrintOptionsModel): Json = Json.obj(
+      "product" -> Json.fromString(a.product),
+      "deliveryCountryCode" -> Json.fromString(a.deliveryCountryCode)
+    )
+  }
 }
-
-
 
 case class AcquisitionModel(
   amount: Double,
@@ -20,7 +36,39 @@ case class AcquisitionModel(
   printOptions: Option[PrintOptionsModel])
 
 object AcquisitionModel {
-  implicit val acquisitionEncode: Encoder[AcquisitionModel] = deriveEncoder
 
-  implicit val acquisitionDecode: Decoder[AcquisitionModel] = deriveDecoder
+  implicit val acquisitionModelDecoder: Decoder[AcquisitionModel] = new Decoder[AcquisitionModel] {
+    override def apply(c: HCursor): Result[AcquisitionModel] =
+      for {
+        amount <- c.downField("amount").as[Double]
+        product <- c.downField("product").as[String]
+        currency <- c.downField("currency").as[String]
+        paymentFrequency <- c.downField("paymentFrequency").as[String]
+        paymentProvider <- c.downField("paymentProvider").as[Option[String]]
+        printOptions <- c.downField("printOptions").as[Option[PrintOptionsModel]]
+      } yield {
+        AcquisitionModel(
+          amount,
+          product,
+          currency,
+          paymentFrequency,
+          paymentProvider,
+          printOptions
+        )
+      }
+  }
+
+  implicit val acquisitionModelEncoder: Encoder[AcquisitionModel] = new Encoder[AcquisitionModel] {
+    override def apply(a: AcquisitionModel): Json = {
+      var map = Map(
+        "amount" -> Json.fromDoubleOrNull(a.amount),
+        "product" -> Json.fromString(a.product),
+        "currency" -> Json.fromString(a.currency),
+        "paymentFrequency" -> Json.fromString(a.paymentFrequency)
+      )
+      a.paymentProvider.foreach(paymentProvider => map += ("paymentProvider" -> Json.fromString(paymentProvider)))
+      a.printOptions.foreach(printOptions => map += ("printOptions" -> printOptions.asJson))
+      JsonObject.fromMap(map).asJson
+    }
+  }
 }
