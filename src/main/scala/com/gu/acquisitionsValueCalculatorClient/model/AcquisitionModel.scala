@@ -9,6 +9,8 @@ case class PrintOptionsModel(product: String, deliveryCountryCode: String)
 
 object PrintOptionsModel {
 
+  // Derived manually to circumvent issues that macro derived encoders and decoders where causing
+  // when this package was used in a Spark job.
   implicit val printOptionsModelDecoder: Decoder[PrintOptionsModel] = new Decoder[PrintOptionsModel] {
     override def apply(c: HCursor): Result[PrintOptionsModel] =
       for {
@@ -19,6 +21,8 @@ object PrintOptionsModel {
       }
   }
 
+  // Derived manually to circumvent issues that macro derived encoders and decoders where causing
+  // when this package was used in a Spark job.
   implicit val printOptionsModelEncoder: Encoder[PrintOptionsModel] = new Encoder[PrintOptionsModel] {
     override def apply(a: PrintOptionsModel): Json = Json.obj(
       "product" -> Json.fromString(a.product),
@@ -37,6 +41,8 @@ case class AcquisitionModel(
 
 object AcquisitionModel {
 
+  // Derived manually to circumvent issues that macro derived encoders and decoders where causing
+  // when this package was used in a Spark job.
   implicit val acquisitionModelDecoder: Decoder[AcquisitionModel] = new Decoder[AcquisitionModel] {
     override def apply(c: HCursor): Result[AcquisitionModel] =
       for {
@@ -58,6 +64,8 @@ object AcquisitionModel {
       }
   }
 
+  // Derived manually to circumvent issues that macro derived encoders and decoders where causing
+  // when this package was used in a Spark job.
   implicit val acquisitionModelEncoder: Encoder[AcquisitionModel] = new Encoder[AcquisitionModel] {
     override def apply(a: AcquisitionModel): Json = {
       var map = Map(

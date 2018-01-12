@@ -8,6 +8,8 @@ sealed trait AnnualisedValueResult
 
 object AnnualisedValueResult {
 
+  // Derived manually to circumvent issues that macro derived encoders and decoders where causing
+  // when this package was used in a Spark job.
   implicit val annualisedValueResultDecoder: Decoder[AnnualisedValueResult] = {
     val annualisedValueTwoDecoder: Decoder[AnnualisedValueResult] = new Decoder[AnnualisedValueResult] {
       override def apply(c: HCursor): Result[AnnualisedValueResult] =
