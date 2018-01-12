@@ -48,8 +48,7 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "0.9.0",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
   "com.gu" %% "fezziwig" % "0.6",
-  "io.circe" %% "circe-parser" % circeVersion,
-  "io.circe" %% "circe-generic" % circeVersion
+  "io.circe" %% "circe-parser" % circeVersion
 )
 
 releaseCrossBuild := true // true if you cross-build the project for multiple Scala versions
