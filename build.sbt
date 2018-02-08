@@ -5,7 +5,9 @@ organization := "com.gu"
 
 description:= "A Client/Service for the acquisitions value calculator"
 
-scalaVersion := "2.11.11"
+scalaVersion := "2.12.4"
+
+crossScalaVersions := Seq(scalaVersion.value, "2.11.12")
 
 scalacOptions ++= Seq(
   "-deprecation",
