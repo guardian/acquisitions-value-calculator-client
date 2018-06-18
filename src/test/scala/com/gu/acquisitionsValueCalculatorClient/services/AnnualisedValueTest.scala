@@ -10,7 +10,7 @@ class AnnualisedValueTest extends FlatSpec with Matchers with OptionValues with 
   behavior of "av service"
 
   val acquisition = AcquisitionModel(50, "PRINT_SUBSCRIPTION", "GBP", "ONE_OFF", Some("STRIPE"), Some(PrintOptionsModel("VOUCHER_WEEKEND_PLUS", "GB")))
-  it should "succesfully return AcquisitionModel given valid input -  no payment provider" in {
+  ignore should "succesfully return AcquisitionModel given valid input -  no payment provider" in {
     AnnualisedValueService.getAV(acquisition, "ophan") should be ('right)
 
   }
