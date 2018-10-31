@@ -1,16 +1,16 @@
 package com.gu.acquisitionsValueCalculatorClient.service
 
-import com.amazonaws.services.lambda.model.{AWSLambdaException, EC2AccessDeniedException, InvocationType, InvokeRequest}
-import com.gu.acquisitionsValueCalculatorClient.model.{AVError, AcquisitionModel, AnnualisedValueResult, AnnualisedValueTwo}
-import io.circe.syntax._
-import io.circe.parser._
 import cats.syntax.either._
 import com.amazonaws.SdkClientException
 import com.amazonaws.services.lambda.AWSLambda
+import com.amazonaws.services.lambda.model.{AWSLambdaException, InvokeRequest}
+import com.gu.acquisitionsValueCalculatorClient.model.{AVError, AcquisitionModel, AnnualisedValueResult, AnnualisedValueTwo}
 import com.gu.acquisitionsValueCalculatorClient.utils.ProfileAwareCredentialsProviderChain
+import io.circe.parser._
+import io.circe.syntax._
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 object AnnualisedValueService extends AnnualisedValueService
 
@@ -28,13 +28,13 @@ class AnnualisedValueService {
     invokeRequest.setFunctionName("acquisitions-value-calculator-PROD")
     invokeRequest.setPayload(acquisitionModel.asJson.noSpaces)
 
-    Try(new String(lambda.invoke(invokeRequest).getPayload.array())).fold(
-      error => handleError(error),
-      response => annualisedValueResultFromJson(response).flatMap {
+    Try(new String(lambda.invoke(invokeRequest).getPayload.array())) match {
+      case Success(response) => annualisedValueResultFromJson(response).flatMap {
         case AVError(e) => Left(e)
         case AnnualisedValueTwo(amount) => Right(amount)
       }
-    )
+      case Failure(error) => handleError(error)
+    }
   }
 
   def handleError(error: Throwable) = Left(
