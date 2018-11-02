@@ -24,8 +24,10 @@ class AnnualisedValueService {
 
     implicit val lambda: AWSLambda = AnnualisedValueClient.createLambdaClient(ProfileAwareCredentialsProviderChain(accountName))
 
+    val lambdaArn = "arn:aws:lambda:eu-west-1:021353022223:function:acquisitions-value-calculator-PROD"
+
     val invokeRequest = new InvokeRequest
-    invokeRequest.setFunctionName("acquisitions-value-calculator-PROD")
+    invokeRequest.setFunctionName(lambdaArn)
     invokeRequest.setPayload(acquisitionModel.asJson.noSpaces)
 
     Try(new String(lambda.invoke(invokeRequest).getPayload.array())) match {
