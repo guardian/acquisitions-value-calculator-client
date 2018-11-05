@@ -55,7 +55,7 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-java-sdk-core" % awsVersion,
   "com.amazonaws" % "aws-java-sdk-lambda" % awsVersion,
   "com.amazonaws" %  "aws-java-sdk-sts" % awsVersion,
-
+  "com.typesafe" % "config" % "1.3.1",
   "org.typelevel" %% "cats-core" % "1.0.1",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
   "com.gu" %% "fezziwig" % "0.8",

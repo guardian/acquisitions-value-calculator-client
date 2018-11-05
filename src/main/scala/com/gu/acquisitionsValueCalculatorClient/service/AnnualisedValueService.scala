@@ -5,7 +5,7 @@ import com.amazonaws.SdkClientException
 import com.amazonaws.services.lambda.AWSLambda
 import com.amazonaws.services.lambda.model.{AWSLambdaException, InvokeRequest}
 import com.gu.acquisitionsValueCalculatorClient.model.{AVError, AcquisitionModel, AnnualisedValueResult, AnnualisedValueTwo}
-import com.gu.acquisitionsValueCalculatorClient.utils.ProfileAwareCredentialsProviderChain
+import com.gu.acquisitionsValueCalculatorClient.utils.{Configuration, ProfileAwareCredentialsProviderChain}
 import io.circe.parser._
 import io.circe.syntax._
 
@@ -24,10 +24,8 @@ class AnnualisedValueService {
 
     implicit val lambda: AWSLambda = AnnualisedValueClient.createLambdaClient(ProfileAwareCredentialsProviderChain(accountName))
 
-    val lambdaArn = "arn:aws:lambda:eu-west-1:021353022223:function:acquisitions-value-calculator-PROD"
-
     val invokeRequest = new InvokeRequest
-    invokeRequest.setFunctionName(lambdaArn)
+    invokeRequest.setFunctionName(Configuration.lambdaArn)
     invokeRequest.setPayload(acquisitionModel.asJson.noSpaces)
 
     Try(new String(lambda.invoke(invokeRequest).getPayload.array())) match {
