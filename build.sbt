@@ -19,8 +19,6 @@ scalacOptions ++= Seq(
 resolvers += Resolver.bintrayRepo("guardian", "ophan")
 resolvers += Resolver.sonatypeRepo("releases")
 
-val circeVersion = "0.9.3"
-
 scmInfo := Some(ScmInfo(
   url("https://github.com/guardian/acquisitions-value-calculator-client"),
   "scm:git:git@github.com:guardian/acquisitions-value-calculator-client.git"
@@ -44,13 +42,20 @@ pomExtra := (
     </developers>
   )
 
+isSnapshot := false
+
 publishTo :=
   Some(if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)
 
+val circeVersion = "0.9.3"
+val awsVersion = "1.11.77"
+
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
-  "com.amazonaws" % "aws-java-sdk-core" % "1.11.77",
-  "com.amazonaws" % "aws-java-sdk-lambda" % "1.11.77",
+  "com.amazonaws" % "aws-java-sdk-core" % awsVersion,
+  "com.amazonaws" % "aws-java-sdk-lambda" % awsVersion,
+  "com.amazonaws" %  "aws-java-sdk-sts" % awsVersion,
+  "com.typesafe" % "config" % "1.3.1",
   "org.typelevel" %% "cats-core" % "1.0.1",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
   "com.gu" %% "fezziwig" % "0.8",
