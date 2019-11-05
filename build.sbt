@@ -1,13 +1,14 @@
 import ReleaseTransformations._
+import xerial.sbt.Sonatype.autoImport.sonatypePublishToBundle
 
 name := "acquisitions-value-calculator-client"
 organization := "com.gu"
 
 description:= "A Client/Service for the acquisitions value calculator"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.13.1"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.11.12")
+crossScalaVersions := Seq(scalaVersion.value, "2.12.10")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -44,21 +45,20 @@ pomExtra := (
 
 isSnapshot := false
 
-publishTo :=
-  Some(if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)
+publishTo := sonatypePublishToBundle.value
 
-val circeVersion = "0.9.3"
+val circeVersion = "0.12.2"
 val awsVersion = "1.11.77"
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.0.0" % "test",
+  "org.scalatest" %% "scalatest" % "3.0.8" % "test",
   "com.amazonaws" % "aws-java-sdk-core" % awsVersion,
   "com.amazonaws" % "aws-java-sdk-lambda" % awsVersion,
   "com.amazonaws" %  "aws-java-sdk-sts" % awsVersion,
   "com.typesafe" % "config" % "1.3.1",
-  "org.typelevel" %% "cats-core" % "1.0.1",
+  "org.typelevel" %% "cats-core" % "2.0.0",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
-  "com.gu" %% "fezziwig" % "0.8",
+  "com.gu" %% "fezziwig" % "1.3",
   "io.circe" %% "circe-parser" % circeVersion
 )
 
@@ -71,9 +71,10 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
+  // For non cross-build projects, use releaseStepCommand("publishSigned")
   releaseStepCommandAndRemaining("+publishSigned"),
+  releaseStepCommand("sonatypeBundleRelease"),
   setNextVersion,
   commitNextVersion,
-  releaseStepCommand("sonatypeReleaseAll"),
   pushChanges
 )
