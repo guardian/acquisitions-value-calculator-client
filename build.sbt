@@ -58,7 +58,7 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.1",
   "org.typelevel" %% "cats-core" % "2.0.0",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
-  "com.gu" %% "fezziwig" % "1.3",
+  "com.gu" %% "fezziwig" % "1.6",
   "io.circe" %% "circe-parser" % circeVersion
 )
 
